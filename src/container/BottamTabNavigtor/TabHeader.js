@@ -10,7 +10,7 @@ import {
     Tab,
     Tabs
 } from "native-base";
-import { Dimensions, Image, TouchableOpacity,StyleSheet } from "react-native";
+import { Dimensions, Image, TouchableOpacity,StyleSheet,StatusBar } from "react-native";
 import { cTheme } from "../../costumeTheme";
 import { color } from "../../config";
 const tabItems=[{
@@ -45,6 +45,7 @@ export default class TabHeader  extends React.Component {
         
         return (
             <Header style={styles.header}>
+              <StatusBar backgroundColor="#f2c30f" barStyle="light-content" />
             <View style={styles.rightBtn} />
             <View style={styles.headerTxtView}>
               <Text style={styles.headerTxt}>{tabItems[navigation.state.index].title}</Text>

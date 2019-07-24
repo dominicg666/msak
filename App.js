@@ -6,7 +6,8 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,7 +25,8 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import AppContainer from './src/container/AppContainer'
+import AppContainer from './src/container/AppContainer';
+import store from './src/store/store'
 
 YellowBox.ignoreWarnings([
   'Warning: componentWillMount is deprecated',
@@ -33,6 +35,9 @@ YellowBox.ignoreWarnings([
 ]);
 export default class App extends React.Component {
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>);
   }
 }

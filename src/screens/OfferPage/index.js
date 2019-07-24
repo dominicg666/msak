@@ -6,140 +6,143 @@ import {
   Text,
   Button,
   Icon,
-  View,
   Tab,
   Tabs
 } from "native-base";
-import { Dimensions, Image, TouchableOpacity, BackHandler } from "react-native";
+import { connect } from 'react-redux';
+import { TabView, TabBar, PagerPan } from 'react-native-tab-view';
+import {
+  View,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+  StatusBar,
+  Animated,
+  Image
+} from "react-native";
 import { color } from "../../config";
+import OfferList from './OfferList';
 import styles from "./styles";
 
 const { width, height } = Dimensions.get("window");
-class OfferPage extends React.Component{
+
+const initialLayout = {
+  height: 0,
+  width: Dimensions.get('window').width,
+};
+
+const HEADER_HEIGHT = 140;
+const COLLAPSED_HEIGHT = -10;
+const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
+class OfferPage extends React.Component {
   static navigationOptions = {
     header: null,
   };
   constructor(props) {
     super(props);
+
     this.state = {
-      search: false,
-      size: { width, height: 200 }
+      index: 0,
+      routes: [
+        { key: '1', title: 'First' },
+        { key: '2', title: 'Second' },
+        { key: '3', title: 'Third' },
+      ],
+      scroll: new Animated.Value(0),
     };
   }
-  componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.handleBackPress
-    );
-  }
 
-  componentWillUnmount() {
-    this.backHandler.remove();
-  }
-
-  handleBackPress = () => {
-    this.props.navigation.navigate("Welcome");
-    return true;
+  _handleIndexChange = index => {
+    this.setState({ index });
   };
+
+  _renderPager = props => <PagerPan {...props} />;
+  _renderHeader = props => {
+    const translateY = this.state.scroll.interpolate({
+      inputRange: [0, SCROLLABLE_HEIGHT],
+      outputRange: [0, -SCROLLABLE_HEIGHT],
+      extrapolate: 'clamp',
+    });
+    console.log(props, 'tabbar');
+    const { index, routes } = props.navigationState;
+    return (
+      <Animated.View style={[styles.header, { transform: [{ translateY }] }]}>
+        <View>
+          <View style={[styles.carouseStyle, this.state.size]}>
+            <Image
+              style={{ width: "100%", borderRadius: 10, height: HEADER_HEIGHT }}
+              source={require("../../assets/bg1.jpg")}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          {
+            routes.map((data, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => this.setState({ index: index })}>
+                  <Text style={[styles.DrinksText,{marginLeft:index==0?10:5,marginRight:index==(routes.length-1)?10:0,marginBottom:5}]}>{data.title}</Text>
+                </TouchableOpacity>
+              )
+            })
+          }
+          {/* <TabBar {...props} style={styles.tabbar} /> */}
+        </View>
+      </Animated.View>
+    );
+  };
+
+
+
+  _renderScene = () => {
+    return (
+      <OfferList
+        scrollEventThrottle={1}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: this.state.scroll } } }],
+          { useNativeDriver: true }
+        )}
+        contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
+      />
+    );
+  };
+
+
   render() {
     return (
-      <Container style={styles.container}>
-        <Content>
-          <View>
-            <View style={[styles.carouseStyle, this.state.size]}>
-              <Image
-                style={{ width: "100%", borderRadius: 10, height: 190 }}
-                source={require("../../assets/bg1.jpg")}
-              />
-            </View>
-          </View>
+      <TabView
+        style={styles.container}
+        navigationState={this.state}
+        renderScene={this._renderScene}
 
-          <View style={{ padding: 15 }}>
-            <View style={{ flexDirection: "row", marginBottom: 25 }}>
-              <TouchableOpacity>
-                <Text style={styles.offerText}>Food </Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text style={styles.DrinksText}>Drinks</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("OfferListing")}
-            >
-              <View style={styles.cardView}>
-                <View style={styles.mainViewStyle}>
-                  <Image
-                    style={styles.cardImg}
-                    source={require("../../assets/12.jpg")}
-                  />
-                </View>
-
-                <View style={styles.mainView}>
-                  <Text style={styles.priceTag}>Buy 1 Get 1</Text>
-                  <Text style={styles.textStyleOne}>Mcdonalds</Text>
-
-                  <View style={{ flexDirection: "row" }}>
-                    <Image
-                      style={styles.imageThree}
-                      source={require("../../assets/location.png")}
-                    />
-                    <Text style={{ color: "#929497" }}>40 KM</Text>
-                  </View>
-                  <Text style={styles.textSix}>
-                    American, Fast-food, Burger, {"\n"}Pizza..
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <View style={styles.cardView}>
-              <View style={styles.mainViewStyle}>
-                <Image
-                  style={styles.cardImg}
-                  source={require("../../assets/16.jpg")}
-                />
-              </View>
-
-              <View style={styles.mainView}>
-                <Text style={styles.priceTag}>50% Off</Text>
-                <Text style={styles.textStyleOne}>Subway</Text>
-
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    style={styles.imageThree}
-                    source={require("../../assets/location.png")}
-                  />
-                  <Text style={{ color: "#929497" }}>12 KM</Text>
-                </View>
-                <Text style={styles.textSix}>American, Fast-food, Burger</Text>
-              </View>
-            </View>
-            <View style={styles.cardView}>
-              <View style={styles.mainViewStyle}>
-                <Image
-                  style={styles.cardImg}
-                  source={require("../../assets/13.jpg")}
-                />
-              </View>
-
-              <View style={styles.mainView}>
-                <Text style={styles.priceTag}>40% Off</Text>
-                <Text style={styles.textStyleOne}>KFC</Text>
-
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    style={styles.imageThree}
-                    source={require("../../assets/location.png")}
-                  />
-                  <Text style={{ color: "#929497" }}>32 KM</Text>
-                </View>
-                <Text style={styles.textSix}>American, Fast-food, Burger</Text>
-              </View>
-            </View>
-          </View>
-        </Content>
-      </Container>
+        renderTabBar={this._renderHeader}
+        renderPager={this._renderPager}
+        // renderScene={this._renderScene}
+        // renderHeader={this._renderHeader}
+        onIndexChange={this._handleIndexChange}
+        initialLayout={initialLayout}
+      />
     );
   }
 }
 
-export default OfferPage;
+const mapStateToProps = state => {
+  return {
+    apiService: state.ApiReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OfferPage);
+
+
+
+

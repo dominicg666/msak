@@ -1,13 +1,31 @@
 import { StyleSheet } from "react-native";
 import { cTheme } from "../../costumeTheme";
 import { color } from "../../config";
-
+const HEADER_HEIGHT = 160;
 const styles: any = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: cTheme.containerbackgroundColor
   },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, .32)',
+  },
+  cover: {
+    height: HEADER_HEIGHT,
+  },
   header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
     backgroundColor: "#fff"
+  },
+  tabbar: {
+    backgroundColor: 'rgba(0, 0, 0, .32)',
+    elevation: 0,
+    shadowOpacity: 0,
   },
   headerView: {
     // width: "15%",
@@ -62,7 +80,7 @@ const styles: any = StyleSheet.create({
   carouseStyle: {
     padding: 10,
     backgroundColor: "#fff",
-    height: 200
+    height: HEADER_HEIGHT
   },
 
   textStyleOne: {
@@ -106,7 +124,9 @@ const styles: any = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     margin: 8,
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: 'center',
+    padding: 8,
   },
   cardImg: {
     width: 90,

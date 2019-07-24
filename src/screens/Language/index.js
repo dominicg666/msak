@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from 'react-redux';
 import {
   Container,
   Header,
@@ -11,7 +12,7 @@ import {
 import { Dimensions, Image, TextInput, TouchableOpacity } from "react-native";
 import { color } from "../../config";
 import styles from "./styles";
-
+import { isSelectedLanguage, configureLanguage } from '../../store/reducers/actions';
 const { width, height } = Dimensions.get("window");
 class Language extends React.Component {
   static navigationOptions = {
@@ -25,30 +26,34 @@ class Language extends React.Component {
     };
   }
 
-  onChangeText(text) {
+  async onChangeText(data) {
     // console.log("onChangeText", text);
+    await this.props.configureLanguage(this.props.navigation, data.value);
   }
   render() {
+    let props = this.props;
     return (
       <Container style={styles.container}>
         <Content>
           <View style={styles.mainView}>
             <Text style={styles.textOne}>Choose your preffered Language</Text>
           </View>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("MobileEnter")}
-            style={{ flexDirection: "row", margin: 20 }}
-          >
-            <Text style={styles.textStyle}>English</Text>
-            <Icon active name="ios-arrow-forward" style={styles.iconStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("MobileEnter")}
-            style={{ flexDirection: "row", margin: 20 }}
-          >
-            <Text style={styles.textStyle}>Arabic (Update it soon)</Text>
-            <Icon active name="ios-arrow-forward" style={styles.iconStyle} />
-          </TouchableOpacity>
+          {
+            props.apiService.languages.map((data,index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.onChangeText(data);
+                  }}
+                  key={index}
+                  style={{ flexDirection: "row", margin: 20 }}
+                >
+                  <Text style={styles.textStyle}>{data.name}</Text>
+                  <Icon active name="ios-arrow-forward" style={styles.iconStyle} />
+                </TouchableOpacity>
+              )
+            })
+          }
         </Content>
 
         {/* <TouchableOpacity
@@ -61,5 +66,19 @@ class Language extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    apiService: state.ApiReducer
+  }
+}
 
-export default Language;
+const mapDispatchToProps = dispatch => {
+  return {
+    isSelectedLanguage: navigation => dispatch(isSelectedLanguage(navigation)),
+    configureLanguage: (navigation, value) => dispatch(configureLanguage(navigation, value)),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Language);

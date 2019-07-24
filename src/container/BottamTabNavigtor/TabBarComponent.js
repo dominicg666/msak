@@ -37,7 +37,7 @@ export default class TabBarComponent  extends React.Component {
                 <View style={styles.bottomBar}>
                     {routes.map((route, index) => {
                       let  focused=navigation.state.index === index;
-                      let image=focused?tabItems[index].activeImage:tabItems[index].image.toString();
+                      let image=focused?tabItems[index].activeImage:tabItems[index].image;
                         return (
                             <TouchableOpacity
                                 key={route.key}
