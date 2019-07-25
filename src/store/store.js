@@ -3,9 +3,14 @@ import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 
 import ApiReducer from './reducers/apiReducer';
+import RestaurantReducer from './reducers/restaurant/restaurantReducer';
+import RestarantBannerReducer from './reducers/restaurant/restarantBannerReducer';
+
 
 const AppReducers=combineReducers({
-    ApiReducer
+    ApiReducer,
+    RestaurantReducer,
+    RestarantBannerReducer
 });
 
 const rootReducer=(state,action)=>{

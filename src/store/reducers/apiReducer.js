@@ -1,6 +1,7 @@
 import { GET_LANGUAGE, SET_LANGUAGE, SET_BASEPATH, IS_LOADING } from './actionType';
 
 var initialState = {
+    api_key:"kasmapp@api_key**",
     basepath_normal: "http://13.127.68.52/kasm/index.php/",
     base_url: null,
     languages: [
@@ -9,7 +10,12 @@ var initialState = {
     ],
     selectedLanguage: null,
     isSelectedLanguage: false,
-    isLoading: false
+    isLoading: false,
+
+
+    //api urls,
+    getcategory:"/home/getcategory",
+    getbanners:"/home/getbanners",
 
 }
 
