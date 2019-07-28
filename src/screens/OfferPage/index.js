@@ -23,10 +23,12 @@ import {
 import { fetchCategory, fetchBanner } from '../../store/reducers/restaurant/actions';
 import { color } from "../../config";
 import OfferList from './OfferList';
+import ShimmerBanner from './ShimmerBanner';
 import styles from "./styles";
 
 const { width, height } = Dimensions.get("window");
 import Carousel from "react-native-looped-carousel";
+import TabHeader from "../../container/BottamTabNavigtor/TabHeader";
 
 const initialLayout = {
   height: 0,
@@ -37,9 +39,9 @@ const HEADER_HEIGHT = 140;
 const COLLAPSED_HEIGHT = -20;
 const SCROLLABLE_HEIGHT = HEADER_HEIGHT - COLLAPSED_HEIGHT;
 class OfferPage extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = props => ({
+    headerTitle: <TabHeader keyindex={0}  {...props} />,
+  });
   constructor(props) {
     super(props);
 
@@ -88,50 +90,63 @@ class OfferPage extends React.Component {
       extrapolate: 'clamp',
     });
     const { index, routes } = props.navigationState;
+    //offerText
+    console.log(props.navigationState, 'routes');
+
     return (
       <Animated.View style={[styles.header, { transform: [{ translateY }] }]}>
         <View>
-          {this.props.restarantBannerService.bannerList && this.props.restarantBannerService.bannerList.length > 0 ? (<Carousel swipe={false} delay={5000} style={[styles.carouseStyle, {height: HEADER_HEIGHT+20, width: width-2}]}
-            autoplay
-            pageInfo
-            onAnimateNextPage={p => console.log(p)}
-          >
-            {this.props.restarantBannerService.bannerList.map((data, index) => {
-              return (
-                <View style={{ borderRadius: 10, height: HEADER_HEIGHT, width: width-5 }} key={index}>
-                  <Image
-                    style={{ flex: 1, borderRadius: 10, height: HEADER_HEIGHT, width: width-5 }}
-                    source={{ uri: data.banner_img }}
-                  />
-                </View>
-              );
-            })}
+          {this.props.restarantBannerService.isBannerRequest ?
+            (<ShimmerBanner />)
+            : this.props.restarantBannerService.bannerList && this.props.restarantBannerService.bannerList.length > 0 ? (<Carousel swipe={false} delay={5000} style={[styles.carouseStyle, { height: HEADER_HEIGHT + 20, width: width - 2 }]}
+              autoplay
+              pageInfo
+              onAnimateNextPage={p => console.log(p)}
+            >
+              {this.props.restarantBannerService.bannerList.map((data, index) => {
+                return (
+                  <View style={{ borderRadius: 10, height: HEADER_HEIGHT, width: width - 5 }} key={index}>
+                    <Image
+                      style={{ flex: 1, borderRadius: 10, height: HEADER_HEIGHT, width: width - 5 }}
+                      source={{ uri: data.banner_img }}
+                    />
+                  </View>
+                );
+              })}
 
-          </Carousel>) : null}
+            </Carousel>) : null}
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ flexDirection: "row" }}>
-          {
-            routes.map((data, index) => {
+        <View
+          // horizontal={true} showsHorizontalScrollIndicator={false}
+          style={{ flexDirection: "row" }}>
+          {/* {
+            routes.map((data, i) => {
+              console.log(i,'rebind',index);
+             let activeIndex= index==i?styles.offerText:styles.DrinksText;
               return (
                 <TouchableOpacity
-                  key={index}
-                  onPress={() => this.setState({ index: index })}>
-                  <Text style={[styles.DrinksText, { marginLeft: index == 0 ? 10 : 5, marginRight: index == (routes.length - 1) ? 10 : 0, marginBottom: 5 }]}>{data.title}</Text>
+                  key={i}
+                  onPress={() => this.setState({ index: i })}>
+                  <Text style={[activeIndex, { marginLeft: i == 0 ? 10 : 5, marginRight: i == (routes.length - 1) ? 10 : 0, marginBottom: 5 }]}>{data.title}</Text>
                 </TouchableOpacity>
               )
             })
-          }
-          {/* <TabBar {...props} style={styles.tabbar} scrollEnabled={true} /> */}
-        </ScrollView>
+          } */}
+          <TabBar {...props} style={styles.tabbar} scrollEnabled={true} />
+        </View>
       </Animated.View>
     );
   };
 
 
 
-  _renderScene = () => {
+  _renderScene = ({ route, jumpTo }) => {
+    //console.log(route,jumpTo);
+
     return (
       <OfferList
+        routekey={route.key}
+        title={route.title}
         scrollEventThrottle={1}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this.state.scroll } } }],

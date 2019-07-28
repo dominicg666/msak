@@ -11,15 +11,16 @@ import {
   Tabs
 } from "native-base";
 import { Dimensions, Image, TouchableOpacity, BackHandler } from "react-native";
+import TabHeader from "../../container/BottamTabNavigtor/TabHeader";
 import Carousel from "react-native-looped-carousel";
 import { color } from "../../config";
 import styles from "./styles";
 
 const { width, height } = Dimensions.get("window");
 class Profile extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = props => ({
+    headerTitle: <TabHeader keyindex={2}  {...props} />,
+  });
   constructor(props) {
     super(props);
     this.state = {

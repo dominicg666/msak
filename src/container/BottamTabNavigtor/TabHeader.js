@@ -48,7 +48,7 @@ export default class TabHeader  extends React.Component {
               <StatusBar backgroundColor="#f2c30f" barStyle="light-content" />
             <View style={styles.rightBtn} />
             <View style={styles.headerTxtView}>
-              <Text style={styles.headerTxt}>{tabItems[navigation.state.index].title}</Text>
+              <Text style={styles.headerTxt}>{tabItems[this.props.keyindex].title}</Text>
             </View>
             <View style={[styles.headerView, { width: "15%" }]}>
               <Button

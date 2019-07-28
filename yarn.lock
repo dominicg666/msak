@@ -5435,6 +5435,11 @@ react-native-safe-area-view@^0.14.1:
   dependencies:
     debounce "^1.2.0"
 
+react-native-skeleton-placeholder@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-skeleton-placeholder/-/react-native-skeleton-placeholder-1.0.3.tgz#bcad48066cd046d8bed73c60446b9bb1de312111"
+  integrity sha512-fuuGWUz7e2TTl2p4QFNmWqo60QuS/E4CqXK54UQ2aoasAIWBKkpG4SE9aOaNVveovd1sfJMpXpcKMCNvqrx9XA==
+
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"

@@ -20,7 +20,7 @@ import { from } from "rxjs";
 
 const Main = createStackNavigator({
   BottomTabBarNavigator
-});
+},{ headerMode: 'none',});
 
 
 const SwitchNavigator = createSwitchNavigator({

@@ -5,12 +5,17 @@ import createLogger from 'redux-logger';
 import ApiReducer from './reducers/apiReducer';
 import RestaurantReducer from './reducers/restaurant/restaurantReducer';
 import RestarantBannerReducer from './reducers/restaurant/restarantBannerReducer';
-
+import RestarantByCategoryReducer from './reducers/restaurant/restarantByCategoryReducer';
+import OfferListsReducer from './reducers/offers/offerListsReducer';
+import OfferDetailsReducer from './reducers/offers/offerDetailsReducer';
 
 const AppReducers=combineReducers({
     ApiReducer,
     RestaurantReducer,
-    RestarantBannerReducer
+    RestarantBannerReducer,
+    RestarantByCategoryReducer,
+    OfferListsReducer,
+    OfferDetailsReducer
 });
 
 const rootReducer=(state,action)=>{

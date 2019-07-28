@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet,Dimensions } from "react-native";
 import { cTheme } from "../../costumeTheme";
 import { color } from "../../config";
 const HEADER_HEIGHT = 160;
@@ -140,7 +140,8 @@ const styles: any = StyleSheet.create({
   textSix: {
     color: color.textLight,
     fontSize: 16,
-    marginLeft: 10
+    marginLeft: 10,
+    width:Dimensions.get("screen").width-165
   },
   textSeven: {
     color: "#000",

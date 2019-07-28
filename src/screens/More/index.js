@@ -14,6 +14,7 @@ import {
 } from "native-base";
 import { Dimensions, Image, TouchableOpacity, FlatList } from "react-native";
 import Carousel from "react-native-looped-carousel";
+import TabHeader from "../../container/BottamTabNavigtor/TabHeader";
 import { color } from "../../config";
 import styles from "./styles";
 const routes = [
@@ -51,9 +52,9 @@ const routes = [
 
 const { width, height } = Dimensions.get("window");
 class More extends React.Component{
-  static navigationOptions = {
-    header: null,
-  };
+  static navigationOptions = props => ({
+    headerTitle: <TabHeader keyindex={3}  {...props} />,
+  });
   constructor(props) {
     super(props);
     this.state = {

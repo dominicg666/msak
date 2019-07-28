@@ -27,7 +27,7 @@ const styles: any = StyleSheet.create({
     paddingLeft: 15,
     paddingBottom: 10
   },
-  bannerStyle: { width: "100%", height: 220 },
+  bannerStyle: { width: "100%", height: 160 },
   topView: {
     // position: "absolute",
     // bottom: 0,

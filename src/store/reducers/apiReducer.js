@@ -16,6 +16,8 @@ var initialState = {
     //api urls,
     getcategory:"/home/getcategory",
     getbanners:"/home/getbanners",
+    getrestaurant_by_cat:"/home/getrestaurant_by_cat",
+    getoffers:"/home/getoffers"
 
 }
 

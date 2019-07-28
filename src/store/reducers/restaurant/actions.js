@@ -7,8 +7,49 @@ import {
 
     BANNER_REQUEST,
     BANNER_SUCCESS,
-    BANNER_FAILURE
+    BANNER_FAILURE,
+
+    RESTARANT_LIST_REQUEST,
+    RESTARANT_LIST_SUCCESS,
+    RESTARANT_LIST_FAILURE
 } from './actionType';
+
+export const fetchRestarantListRequest = ({ KEY }) => ({
+    type: RESTARANT_LIST_REQUEST,
+    payload: {key:KEY}
+})
+
+export const fetchRestarantListSuccess = (json) => ({
+    type: RESTARANT_LIST_SUCCESS,
+    payload: json
+})
+
+export const fetchRestarantListFailure = (json) => ({
+    type: RESTARANT_LIST_FAILURE,
+    payload: json
+})
+
+
+export const fetchRestarantList = ({ URL, API_KEY, KEY }) => {
+    return async (dispatch) => {
+        dispatch(fetchRestarantListRequest({ KEY }));
+        await axios.post(URL, { category_id: KEY }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'api_key': API_KEY
+            }
+        }).then((response) => {
+            if (response.data.success) {
+                dispatch(fetchRestarantListSuccess({ key: KEY, ...response.data }));
+            } else {
+                dispatch(fetchRestarantListFailure({ key: KEY, ...response.data }));
+            }
+        }).catch(error => {
+            dispatch(fetchRestarantListFailure({ key: KEY, ...error }));
+        });
+    }
+}
+
 
 export const fetchBannerRequest = () => ({
     type: BANNER_REQUEST
