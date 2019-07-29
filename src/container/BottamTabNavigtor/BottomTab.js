@@ -8,27 +8,29 @@ import Profile from '../../screens/Profile/index';
 import More from '../../screens/More/index';
 
 import OfferView from '../../screens/OfferView/index';
+import ProductView from '../../screens/ProductView/index';
 
-const OfferPageNavigator=createStackNavigator({
-    OfferPage:OfferPage,
+const OfferPageNavigator = createStackNavigator({
+    OfferPage: OfferPage,
+    OfferView: OfferView,
+    ProductView: ProductView
+});
+
+const OfferBannerNavigator = createStackNavigator({
+    OfferBannerPage: OfferBannerPage,
+    ProductView: ProductView
 
 });
 
-const OfferBannerNavigator=createStackNavigator({
-    OfferBannerPage:OfferBannerPage,
-    OfferView:OfferView
+const ProfileNavigator = createStackNavigator({
+    Profile: Profile,
+    OfferView: OfferView
 
 });
 
-const ProfileNavigator=createStackNavigator({
-    Profile:Profile,
-    OfferView:OfferView
-
-});
-
-const MoreNavigator=createStackNavigator({
-    More:More,
-    OfferView:OfferView
+const MoreNavigator = createStackNavigator({
+    More: More,
+    OfferView: OfferView
 
 });
 
@@ -46,7 +48,7 @@ const Navigator = createBottomTabNavigator(
             <TabBarComponent
                 {...props}
             />,
-          
+
     }
 );
 

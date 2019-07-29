@@ -148,6 +148,7 @@ class OfferPage extends React.Component {
         routekey={route.key}
         title={route.title}
         scrollEventThrottle={1}
+        navigation={this.props.navigation}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: this.state.scroll } } }],
           { useNativeDriver: true }

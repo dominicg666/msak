@@ -9,6 +9,8 @@ import {
   View
 } from "native-base";
 import { Dimensions, Image, TouchableOpacity, BackHandler } from "react-native";
+import { connect } from 'react-redux';
+import { fetchOffersDetails } from '../../store/reducers/offers/action';
 import { color } from "../../config";
 import styles from "./styles";
 
@@ -26,18 +28,19 @@ class ProductView extends React.Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.handleBackPress
-    );
+    let URL = this.props.apiService.base_url + this.props.apiService.getoffers;
+    let API_KEY = this.props.apiService.api_key;
+    let OFFER_ID = this.props.offerDetailsService.offer_id;
+
+    this.props.fetchOffersDetails({ URL, API_KEY, OFFER_ID });
   }
 
   componentWillUnmount() {
-    this.backHandler.remove();
+
   }
 
   handleBackPress = () => {
-    this.props.navigation.navigate("OfferListing");
+    // this.props.navigation.navigate("OfferListing");
     return true;
   };
   render() {
@@ -47,44 +50,86 @@ class ProductView extends React.Component {
           <Button
             style={styles.menuButton}
             transparent
-            onPress={() => this.props.navigation.navigate("OfferListing")}
+            onPress={() => {
+              if (this.props.navigation.pop()) {
+                this.props.navigation.goBack()
+              }
+            }}
           >
             <Icon active name="ios-arrow-back" style={styles.iconStyle} />
           </Button>
         </View>
+        {this.props.offerDetailsService.offerDetails && this.props.offerDetailsService.offerDetails.length > 0 ?
+          this.props.offerDetailsService.offerDetails.map((data, i) => {
+            return (
+              <Content key={i}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate("OfferBannerPage")}
+                  >
+                    <Image
+                      style={styles.imageStyle}
+                      source={{uri:data.banner}}
+                    />
+                  </TouchableOpacity>
+                </View>
 
-        <Content>
-          <View>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("OfferBannerPage")}
-            >
-              <Image
-                style={styles.imageStyle}
-                source={require("../../assets/sandwitch.jpg")}
-              />
-            </TouchableOpacity>
-          </View>
+                <View>
+                  <Text style={styles.textStyleOne}>{`${data.banner_text}`}</Text>
 
-          <View>
-            <Text style={styles.textStyleOne}>Buy 1 Get 1 free</Text>
-
-            <Text style={styles.homeTopText}>
-              Buy one larger burger and you will one {"\n"}Absolutely free
+                  <Text style={styles.homeTopText}>
+                    Buy one larger burger and you will one {"\n"}Absolutely free
             </Text>
 
-            <Button style={styles.buttonStyle}>
-              <Text style={styles.buttonText}>Use coupon</Text>
-            </Button>
-          </View>
+                  <Button style={styles.buttonStyle}>
+                    <Text style={styles.buttonText}>Use coupon</Text>
+                  </Button>
+                </View>
 
-          <View style={styles.viewFive}>
-            <Text style={styles.textNine}>Your Estimated savings!</Text>
-            <Text style={styles.textTen}>SAR 82</Text>
-          </View>
-        </Content>
+                <View style={styles.viewFive}>
+                  <Text style={styles.textNine}>Your Estimated savings!</Text>
+                  <Text style={styles.textTen}>{`${data.coupon_code}`}</Text>
+                </View>
+              </Content>)
+          }) : (<View style={{
+            flex: 1, paddingLeft: 12, paddingRight: 12,
+            width: Dimensions.get('screen').width,
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            backgroundColor: "white"
+
+          }}>
+            <Image
+              style={{ height: 100, width: 180 }}
+              source={require("../../assets/no-data-found.png")}
+
+            />
+            <Text>No Data Found...</Text>
+          </View>)
+
+        }
       </Container>
     );
   }
 }
 
-export default ProductView;
+
+const mapStateToProps = state => {
+  return {
+    apiService: state.ApiReducer,
+    offerDetailsService: state.OfferDetailsReducer
+
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchOffersDetails: ({ URL, API_KEY, OFFER_ID }) => dispatch(fetchOffersDetails({ URL, API_KEY, OFFER_ID }))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductView);
+

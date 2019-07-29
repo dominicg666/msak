@@ -10,7 +10,7 @@ import {
 } from "native-base";
 import { Dimensions, Image, TouchableOpacity, BackHandler } from "react-native";
 import { connect } from 'react-redux';
-import { fetchOffersDetails } from '../../store/reducers/offers/action';
+import { fetchRestarantDetails } from '../../store/reducers/restaurant/actions';
 import Carousel from "react-native-looped-carousel";
 import { color } from "../../config";
 import styles from "./styles";
@@ -30,11 +30,11 @@ class OfferView extends React.Component {
 
 
   componentDidMount() {
-    let URL = this.props.apiService.base_url + this.props.apiService.getoffers;
+    let URL = this.props.apiService.base_url + this.props.apiService.getrestaurant;
     let API_KEY = this.props.apiService.api_key;
-    let OFFER_ID = this.props.offerDetailsService.offer_id;
+    let RESTARANT_ID = this.props.restaurantDetailsService.restarant_id;
 
-    this.props.fetchOffersDetails({ URL, API_KEY, OFFER_ID });
+    this.props.fetchRestarantDetails({ URL, API_KEY, RESTARANT_ID });
   }
 
   componentWillUnmount() {
@@ -42,11 +42,12 @@ class OfferView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.offerDetailsService.offerDetails !== this.props.offerDetailsService.offerDetails) {
-      if (nextProps.offerDetailsService.offerDetails
-        && nextProps.offerDetailsService.offerDetails[0]
-        && nextProps.offerDetailsService.offerDetails[0].restuarant_name) {
-        let restuarant_name = nextProps.offerDetailsService.offerDetails[0].restuarant_name
+    if (nextProps.restaurantDetailsService.restarantDetails !== this.props.restaurantDetailsService.restarantDetails) {
+      if (nextProps.restaurantDetailsService.restarantDetails
+        && nextProps.restaurantDetailsService.restarantDetails.restuarant
+        && nextProps.restaurantDetailsService.restarantDetails.restuarant[0]
+        && nextProps.restaurantDetailsService.restarantDetails.restuarant[0].restuarant_name) {
+        let restuarant_name = nextProps.restaurantDetailsService.restarantDetails.restuarant[0].restuarant_name
         const { setParams } = this.props.navigation;
         setParams({ title: restuarant_name })
       }
@@ -60,19 +61,17 @@ class OfferView extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
-        {this.props.offerDetailsService.offerDetails && this.props.offerDetailsService.offerDetails.length > 0 ?
-          this.props.offerDetailsService.offerDetails.map((data, i) => {
+        {this.props.restaurantDetailsService.restarantDetails &&
+          this.props.restaurantDetailsService.restarantDetails.restuarant
+          && this.props.restaurantDetailsService.restarantDetails.restuarant.length > 0 ?
+          this.props.restaurantDetailsService.restarantDetails.restuarant.map((data, i) => {
             return (<Content key={i}>
               <View>
                 <View>
-                  <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("ProductView")}
-                  >
                     <Image
                       style={{ width: "100%", height: 180 }}
-                      source={{uri:data.banner}}
+                      source={{ uri: data.picture }}
                     />
-                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.topView}>
@@ -94,11 +93,11 @@ class OfferView extends React.Component {
                 />
               </View>
               <View>
-                <Text style={styles.textStyleOne}>{data.banner_text}</Text>
+                <Text style={styles.textStyleOne}>{data.food_type}</Text>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.homeTopText}>
-                    {data.restuarant_name} {`Code: ${data.coupon_code}`}
-              </Text>
+                    {data.restuarant_name}
+                  </Text>
                 </View>
               </View>
               <View style={styles.viewFour}>
@@ -168,14 +167,14 @@ class OfferView extends React.Component {
 const mapStateToProps = state => {
   return {
     apiService: state.ApiReducer,
-    offerDetailsService: state.OfferDetailsReducer
+    restaurantDetailsService: state.RestaurantDetailsReducer
 
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOffersDetails: ({ URL, API_KEY, OFFER_ID }) => dispatch(fetchOffersDetails({ URL, API_KEY, OFFER_ID }))
+    fetchRestarantDetails: ({ URL, API_KEY, RESTARANT_ID }) => dispatch(fetchRestarantDetails({ URL, API_KEY, RESTARANT_ID }))
   };
 };
 export default connect(

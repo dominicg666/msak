@@ -11,8 +11,58 @@ import {
 
     RESTARANT_LIST_REQUEST,
     RESTARANT_LIST_SUCCESS,
-    RESTARANT_LIST_FAILURE
+    RESTARANT_LIST_FAILURE,
+
+    RESTARANT_DETAILS_REQUEST,
+    RESTARANT_DETAILS_SUCCESS,
+    RESTARANT_DETAILS_FAILURE,
+    OPEN_RESTARANT_DETALS
 } from './actionType';
+
+export const openRestarantDetails = (json) => ({
+    type: OPEN_RESTARANT_DETALS,
+    payload: json
+})
+
+export const fetchRestarantDetailsRequest = () => ({
+    type: RESTARANT_DETAILS_REQUEST
+})
+
+export const fetchRestarantDetailsSuccess = (json) => ({
+    type: RESTARANT_DETAILS_SUCCESS,
+    payload: json
+})
+
+export const fetchRestarantDetailsFailure = (json) => ({
+    type: RESTARANT_DETAILS_FAILURE,
+    payload: json
+})
+
+
+export const fetchRestarantDetails = ({ URL, API_KEY, RESTARANT_ID }) => {
+    return async (dispatch) => {
+        dispatch(fetchRestarantDetailsRequest());
+        await axios.post(URL, { restuarant_id: RESTARANT_ID }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'api_key': API_KEY
+            }
+        }).then((response) => {
+            if (response.data.success) {
+                dispatch(fetchRestarantDetailsSuccess(response.data ));
+            } else {
+                dispatch(fetchRestarantDetailsFailure(response.data ));
+            }
+        }).catch(error => {
+            dispatch(fetchRestarantDetailsFailure(error));
+        });
+    }
+}
+
+
+
+
+
 
 export const fetchRestarantListRequest = ({ KEY }) => ({
     type: RESTARANT_LIST_REQUEST,

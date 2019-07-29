@@ -8,6 +8,7 @@ import RestarantBannerReducer from './reducers/restaurant/restarantBannerReducer
 import RestarantByCategoryReducer from './reducers/restaurant/restarantByCategoryReducer';
 import OfferListsReducer from './reducers/offers/offerListsReducer';
 import OfferDetailsReducer from './reducers/offers/offerDetailsReducer';
+import RestaurantDetailsReducer from './reducers/restaurant/restaurantDetailsReducer';
 
 const AppReducers=combineReducers({
     ApiReducer,
@@ -15,7 +16,8 @@ const AppReducers=combineReducers({
     RestarantBannerReducer,
     RestarantByCategoryReducer,
     OfferListsReducer,
-    OfferDetailsReducer
+    OfferDetailsReducer,
+    RestaurantDetailsReducer
 });
 
 const rootReducer=(state,action)=>{

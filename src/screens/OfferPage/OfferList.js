@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { fetchRestarantList } from '../../store/reducers/restaurant/actions';
+import { fetchRestarantList,openRestarantDetails } from '../../store/reducers/restaurant/actions';
 import ShimmerList from './ShimmerList';
-import { View, Text, Animated, FlatList, Image, Dimensions } from 'react-native';
+import { View, Text, Animated, FlatList, Image, Dimensions,TouchableOpacity } from 'react-native';
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 import styles from "./styles";
 const CONTACTS = [
@@ -30,34 +30,41 @@ class OfferList extends React.Component {
 
     }
     _renderItem = ({ item }) => (
-        <View style={styles.cardView}>
-            <View style={styles.mainViewStyle}>
-                <Image
-                    style={styles.cardImg}
-                    source={{ uri: item.picture }}
-                />
-            </View>
-
-            <View style={styles.mainView}>
-                <Text style={styles.priceTag}>{item.offerpcntg}</Text>
-                <Text style={styles.textStyleOne}>{item.restuarant_name}</Text>
-
-                <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+            onPress={() => {
+                this.props.openRestarantDetails({ restarant_id: item.restuarant_id })
+                this.props.navigation.navigate("OfferView")
+            }}
+        >
+            <View style={styles.cardView}>
+                <View style={styles.mainViewStyle}>
                     <Image
-                        style={styles.imageThree}
-                        source={require("../../assets/location.png")}
+                        style={styles.cardImg}
+                        source={{ uri: item.picture }}
                     />
-                    <Text style={{ color: "#929497" }}>{item.distance} KM</Text>
                 </View>
-                <Text style={styles.textSix}>{item.food_type}</Text>
+
+                <View style={styles.mainView}>
+                    <Text style={styles.priceTag}>{item.offerpcntg}</Text>
+                    <Text style={styles.textStyleOne}>{item.restuarant_name}</Text>
+
+                    <View style={{ flexDirection: "row" }}>
+                        <Image
+                            style={styles.imageThree}
+                            source={require("../../assets/location.png")}
+                        />
+                        <Text style={{ color: "#929497" }}>{item.distance} KM</Text>
+                    </View>
+                    <Text style={styles.textSix}>{item.food_type}</Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 
     // _ItemSeparator = () => <View style={styles.separator} />;
 
     render() {
-      //  console.log('restarantList', this.props.restarantByCategoryService.restarantList);
+        //  console.log('restarantList', this.props.restarantByCategoryService.restarantList);
         //no-data-foundShimmerList
         return this.props.restarantByCategoryService.restarantList && this.props.restarantByCategoryService.restarantList[`routekey_${this.props.routekey}`]
             && this.props.restarantByCategoryService.restarantList[`routekey_${this.props.routekey}`]['isRequest'] ?
@@ -104,6 +111,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchRestarantList: ({ URL, API_KEY, KEY }) => dispatch(fetchRestarantList({ URL, API_KEY, KEY })),
+        openRestarantDetails: (offer_id) => dispatch(openRestarantDetails(offer_id))
+        
 
     };
 };

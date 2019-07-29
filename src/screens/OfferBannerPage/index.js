@@ -51,7 +51,7 @@ class OfferBannerPage extends React.Component {
     <TouchableOpacity
       onPress={() => {
         this.props.openOfferDetails({ offer_id: item.offer_id })
-        this.props.navigation.navigate("OfferView")
+        this.props.navigation.navigate("ProductView")
       }}
     >
       <View>
