@@ -64,10 +64,10 @@ const styles: any = StyleSheet.create({
     marginRight: 8
   },
   textStyleOne: {
-    fontSize: 25,
-    marginLeft: 20,
-    marginTop: 10,
-    marginBottom: 10
+    fontSize: 16,
+    marginLeft: 10,
+    marginTop: 5,
+    marginBottom: 5
   },
   imageThree: {
     marginBottom: 12,
@@ -106,8 +106,9 @@ const styles: any = StyleSheet.create({
   mainView: { marginLeft: 10 },
   textSix: {
     color: color.textLight,
-    fontSize: 17,
-    marginTop: 12,
+    fontSize: 12,
+    marginTop: 10,
+    marginLeft:10,
     marginBottom: 1
   },
   textSeven: {
@@ -122,6 +123,7 @@ const styles: any = StyleSheet.create({
     marginTop: 3,
     marginBottom: 5
   },
+  viewOffers: { backgroundColor: "white", padding: 15 },
   viewFive: { backgroundColor: "#f4f4f4", padding: 15 },
   textNine: {
     color: color.slateText,
@@ -153,6 +155,18 @@ const styles: any = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 15
-  }
+  },
+    mainViewStyle: {
+    borderColor: "#d9d9d9",
+    borderRightWidth: 1,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  priceTag: {
+    fontSize: 12,
+    marginLeft: 10,
+    marginTop: 5,
+    marginBottom: 5
+  },
 });
 export default styles;

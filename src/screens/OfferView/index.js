@@ -11,6 +11,7 @@ import {
 import { Dimensions, Image, TouchableOpacity, BackHandler } from "react-native";
 import { connect } from 'react-redux';
 import { fetchRestarantDetails } from '../../store/reducers/restaurant/actions';
+import { openOfferDetails } from '../../store/reducers/offers/action';
 import Carousel from "react-native-looped-carousel";
 import { color } from "../../config";
 import styles from "./styles";
@@ -68,10 +69,10 @@ class OfferView extends React.Component {
             return (<Content key={i}>
               <View>
                 <View>
-                    <Image
-                      style={{ width: "100%", height: 180 }}
-                      source={{ uri: data.picture }}
-                    />
+                  <Image
+                    style={{ width: "100%", height: 180 }}
+                    source={{ uri: data.picture }}
+                  />
                 </View>
               </View>
               <View style={styles.topView}>
@@ -120,7 +121,34 @@ class OfferView extends React.Component {
               </Text>
                 </View>
               </View>
+              <View style={styles.viewOffers}>
+                <Text style={styles.textNine}>Offers</Text>
+                {this.props.restaurantDetailsService.restarantDetails.offers.map((item, i) => {
+                  return (<TouchableOpacity
+                    onPress={() => {
+                      this.props.openOfferDetails({ offer_id: item.offer_id })
+                      this.props.navigation.navigate("ProductView")
+                    }}
+                    key={i}
+                  >
+                    <View style={styles.cardView}>
+                      <View style={styles.mainViewStyle}>
+                        <Image
+                          style={styles.cardImg}
+                          source={{uri:item.banner}}
+                        />
+                      </View>
+                      <View style={styles.mainView}>
+                        <Text style={styles.priceTag}>{item.restuarant_name}</Text>
+                        <Text style={styles.textStyleOne}>{item.banner_text}</Text>
 
+                        <Text style={styles.textSix}>already used</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>)
+                })}
+
+              </View>
               <View style={styles.viewFive}>
                 <Text style={styles.textNine}>Outlet Details</Text>
                 <Text style={styles.textTen}>{data.restuarant_name}</Text>
@@ -174,7 +202,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRestarantDetails: ({ URL, API_KEY, RESTARANT_ID }) => dispatch(fetchRestarantDetails({ URL, API_KEY, RESTARANT_ID }))
+    fetchRestarantDetails: ({ URL, API_KEY, RESTARANT_ID }) => dispatch(fetchRestarantDetails({ URL, API_KEY, RESTARANT_ID })),
+    openOfferDetails: (offer_id) => dispatch(openOfferDetails(offer_id))
   };
 };
 export default connect(
