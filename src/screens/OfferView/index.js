@@ -94,10 +94,10 @@ class OfferView extends React.Component {
                 />
               </View>
               <View>
-                <Text style={styles.textStyleOne}>{data.food_type}</Text>
+                <Text style={styles.textStyleOne}>{data.restuarant_name} | Rating:  {data.rating}</Text>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.homeTopText}>
-                    {data.restuarant_name}
+                  
                   </Text>
                 </View>
               </View>
@@ -142,7 +142,7 @@ class OfferView extends React.Component {
                         <Text style={styles.priceTag}>{item.restuarant_name}</Text>
                         <Text style={styles.textStyleOne}>{item.banner_text}</Text>
 
-                        <Text style={styles.textSix}>already used</Text>
+                        <Text style={styles.textSix}>{item.used?'Already used':coupon_code}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>)
@@ -154,15 +154,14 @@ class OfferView extends React.Component {
                 <Text style={styles.textTen}>{data.restuarant_name}</Text>
                 <Text style={styles.TextLeven}>
                   <Text style={styles.TextTwelve}>Location: </Text>
-                  AlManama,18thstreet
+                  {data.address}
             </Text>
                 <Text style={styles.aone}>
                   <Text style={styles.atwo}>Type :</Text>
-                  Fast food
+                  {data.category}
             </Text>
                 <Text style={styles.athree}>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting
-                  industry
+                {data.restaurant_txt}
             </Text>
               </View>
             </Content>

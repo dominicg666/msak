@@ -78,10 +78,10 @@ class ProductView extends React.Component {
                   <Text style={styles.textStyleOne}>{`${data.banner_text}`}</Text>
 
                   <Text style={styles.homeTopText}>
-                    Buy one larger burger and you will one {"\n"}Absolutely free
+                   {data.offer_text}
             </Text>
 
-                  <Button style={styles.buttonStyle}>
+                  <Button style={styles.buttonStyle}   onPress={() => this.props.navigation.navigate("Barcode")}>
                     <Text style={styles.buttonText}>Use coupon</Text>
                   </Button>
                 </View>

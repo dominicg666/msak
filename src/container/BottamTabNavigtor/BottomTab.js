@@ -10,15 +10,20 @@ import More from '../../screens/More/index';
 import OfferView from '../../screens/OfferView/index';
 import ProductView from '../../screens/ProductView/index';
 
+
+import Barcode from '../../screens/Barcode/index';
+
 const OfferPageNavigator = createStackNavigator({
     OfferPage: OfferPage,
     OfferView: OfferView,
-    ProductView: ProductView
+    ProductView: ProductView,
+    Barcode:Barcode
 });
 
 const OfferBannerNavigator = createStackNavigator({
     OfferBannerPage: OfferBannerPage,
-    ProductView: ProductView
+    ProductView: ProductView,
+    Barcode:Barcode
 
 });
 
